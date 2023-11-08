@@ -3,6 +3,7 @@ import numpy as np
 import os
 import time
 from multiprocessing import Pool
+from numba import njit
 
 def Texture(filepath, folderpath): # Main Function
     start_time = time.time()
@@ -23,16 +24,15 @@ def greyscaleTransform(image): # GreyScale Extracting
     greyimage = 0.29 * redPixels + 0.587 * greenPixels + 0.114 * bluePixels
     max_grey_val = int(np.ceil(np.max(greyimage)))
     return greyimage,max_grey_val
-
 def calculate_texture_features(image): # Vector Occurence Extracting
     # Perform grayscale transformation
-    grey_image, max = greyscaleTransform(image)
+    grey_image, max_val = greyscaleTransform(image)
     
     # Calculate GLCM features
 
     # glcm_features = [GLMCMatrixProcessingUnit(co_occurance_mat_Backup(grey_image,angle,max)) for angle in [0]]
 
-    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0,max))
+    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0,max_val))
     glcm_features = list(glcm_features)
     return glcm_features
 
@@ -47,21 +47,26 @@ def DataSetSimilarityProcess(folder_path, input_image_vec): # Data set Processor
             print(f"Similarity with dataset image {i}: {similarity * 100}")
             i += 1
 
-def co_occurance_mat(image, angle, max): # Normalized Co Occurence Matrix
-    co_occurrence = np.zeros((max+1,max+1), dtype=int)
+@njit
+def co_occurance_mat(image, angle, max_val):
+    height, width = image.shape
+    co_occurrence = np.zeros((max_val + 1, max_val + 1), dtype=np.int64)
 
     sudut = angle * (np.pi / 180)
-    offset_x = int(np.cos(sudut))
-    offset_y = int(np.sin(sudut))
+    offset_x = int(np.cos(sudut))  # Cast the result to int
+    offset_y = int(np.sin(sudut))  # Cast the result to int
 
-    
-    for i in range(max+1):
-        for j in range(max+1):
-            off_y = int(i + offset_y)
-            off_x = int(j + offset_x)
-            if 0 <= off_x < max + 1 and 0 <= off_y < max+1:
-                co_occurrence[int(image[i,j]),int(image[off_y][off_x])] += 1
-    return NormSymmetric(co_occurrence)         
+    for i in range(height):
+        for j in range(width):
+            off_y = i + offset_y
+            off_x = j + offset_x
+            if 0 <= off_x < width and 0 <= off_y < height:
+                curr_val = int(image[i, j])  # Cast the result to int
+                off_val = int(image[off_y, off_x])  # Cast the result to int
+                co_occurrence[curr_val, off_val] += 1
+    NormMatrix = NormSymmetric(co_occurrence)
+    return NormMatrix
+
 
 def Tranpose(mat): # Get Tranpose and Sums Value of a Matriks
 
@@ -70,20 +75,24 @@ def Tranpose(mat): # Get Tranpose and Sums Value of a Matriks
         for j in range(len(mat[i])):
             matTrans[j,i] = mat[i,j]
     return matTrans
+
+@njit
 def Tranpose2(mat): # Get Tranpose and Sums Value of a Matriks
 
-    matTrans = np.zeros((len(mat[0]), len(mat)),dtype= int)
-    i,j = np.indices(np.shape(mat))
-    matTrans[i,j] = mat[j,i]
+    matTrans = np.zeros((len(mat[0]), len(mat)),dtype= np.int64)
+    for i in range(len(mat)):
+        for j in range(len(mat[0])):
+            matTrans[i,j] = mat[j,i]
     return matTrans
-
+@njit
 def NormSymmetric(mat): # Get the Normalized Value of Matriks (for Co-Occurence)
     mats = Tranpose2(mat) + mat 
     sums = np.sum(mat)
     #sumsB = np.sum(mat)
         
     return (mats/sums)
-    
+
+
 def GLMCMatrixProcessingUnit(mat):
     i, j = np.indices(mat.shape)
     px = mat
