@@ -9,6 +9,7 @@ function App() {
   return (
     <div>
       <Navbar />
+      <div className='mt-[250px]'/>
       <Hero />
       <Reverse />
       <HowToUse />

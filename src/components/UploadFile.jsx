@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 
-function UploadFile(){
-
+function UploadFile({ onUploadChange }) {
     const [image, setImage] = useState("https://fakeimg.pl/350x200");
     const [saveImage, setSaveImage] = useState(null);
 
-    function handleUploadChange(e){
+    function handleUploadChange(e) {
         console.log(e.target.files[0]);
         let uploaded = e.target.files[0];
         const url = URL.createObjectURL(uploaded);
         console.log(uploaded);
-        setImage(url)
+        setImage(url);
 
-    }
-    
-    function clickme(e){
-        document.getElementById("formFile").click();
+        // Call the callback function when the upload changes
+        if (onUploadChange) {
+            onUploadChange(url);
+        }
     }
 
     return (
@@ -25,19 +24,10 @@ function UploadFile(){
                     <div>
                         <img src={image} alt="" className='img-thumbnail' />
                     </div>
-                    <div className='my-3 items-end'>
-                        <h2 className='font-bold text-2xl text-center'>Image Input</h2>
-                        {/* <label htmlFor='formFile' className='form-label font-bold text-2xl text-center'>Upload Image here </label> */}
-                        <div className='w-full flex justify-center'>
-                            <input type='file' className='form-control hidden ' id='formFile' onChange={handleUploadChange} accept='image/*' />                           
-                            <button onClick={clickme} className='btn btn-primary w-100 mt-2 bg-[black] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-[aquamarine]'>Save my photo</button>
-                        </div>
-                        {/* <input type='file' className='form-control' id='formFile' onChange={handleUploadChange} accept='image/*' /> */}
-                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default UploadFile
+export default UploadFile;
