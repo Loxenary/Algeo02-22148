@@ -5,12 +5,14 @@ import Reverse from './components/Reverse';
 import HowToUse from './components/HowToUse';
 
 
+
 function App() {
   return (
     <div>
       <Navbar />
       <div className='mt-[250px]'/>
       <Hero />
+      {/* <Test1 /> */}
       <Reverse />
       <HowToUse />
     </div>
