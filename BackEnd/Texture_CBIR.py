@@ -22,6 +22,7 @@ def greyscaleTransform(image): # GreyScale Extracting
     greyimage = np.zeros((height, width), dtype=int)
     greyimage = 0.29 * redPixels + 0.587 * greenPixels + 0.114 * bluePixels
     max_grey_val = int(np.ceil(np.max(greyimage)))
+    print(greyimage)
     return greyimage,max_grey_val
 
 def calculate_texture_features(image): # Vector Occurence Extracting

@@ -17,22 +17,21 @@ def Texture(filepath, folderpath): # Main Function
 
 def greyscaleTransform(image): # GreyScale Extracting
     height, width = image.shape[:2]
-    bluePixels, greenPixels, redPixels = cv2.split(image)
+    bluePixels, greenPixels, redPixels = image[:, :, 0], image[:, :, 1], image[:,:,2]
 
 
-    greyimage = np.zeros((height, width), dtype=int)
+    greyimage = np.zeros((height, width), dtype=float)
     greyimage = 0.29 * redPixels + 0.587 * greenPixels + 0.114 * bluePixels
-    max_grey_val = int(np.ceil(np.max(greyimage)))
-    return greyimage,max_grey_val
+    return greyimage
 def calculate_texture_features(image): # Vector Occurence Extracting
     # Perform grayscale transformation
-    grey_image, max_val = greyscaleTransform(image)
     
+    grey_image= greyscaleTransform(image)
     # Calculate GLCM features
 
     # glcm_features = [GLMCMatrixProcessingUnit(co_occurance_mat_Backup(grey_image,angle,max)) for angle in [0]]
 
-    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0,max_val))
+    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0))
     glcm_features = list(glcm_features)
     return glcm_features
 
@@ -46,11 +45,10 @@ def DataSetSimilarityProcess(folder_path, input_image_vec): # Data set Processor
             similarity = cosine_similarity(input_image_vec, vec2)
             print(f"Similarity with dataset image {i}: {similarity * 100}")
             i += 1
-
 @njit
-def co_occurance_mat(image, angle, max_val):
-    height, width = image.shape
-    co_occurrence = np.zeros((max_val + 1, max_val + 1), dtype=np.int64)
+def co_occurance_mat(image, angle):
+    height, width = image.shape[:2] # get the image height and width
+    co_occurrence = np.zeros((256,256), dtype=np.float64)
 
     sudut = angle * (np.pi / 180)
     offset_x = int(np.cos(sudut))  # Cast the result to int
@@ -67,27 +65,19 @@ def co_occurance_mat(image, angle, max_val):
     NormMatrix = NormSymmetric(co_occurrence)
     return NormMatrix
 
-
+@njit
 def Tranpose(mat): # Get Tranpose and Sums Value of a Matriks
 
-    matTrans = np.zeros((len(mat[0]), len(mat)),dtype= int)
-    for i in range(len(mat)):
-        for j in range(len(mat[i])):
-            matTrans[j,i] = mat[i,j]
-    return matTrans
-
-@njit
-def Tranpose2(mat): # Get Tranpose and Sums Value of a Matriks
-
-    matTrans = np.zeros((len(mat[0]), len(mat)),dtype= np.int64)
+    matTrans = np.zeros((len(mat[0]), len(mat)),dtype= np.float64)
     for i in range(len(mat)):
         for j in range(len(mat[0])):
             matTrans[i,j] = mat[j,i]
     return matTrans
 @njit
 def NormSymmetric(mat): # Get the Normalized Value of Matriks (for Co-Occurence)
-    mats = Tranpose2(mat) + mat 
-    sums = np.sum(mat)
+    mats = Tranpose(mat) + mat 
+    sums = np.sum(mats)
+    
     #sumsB = np.sum(mat)
         
     return (mats/sums)
@@ -105,36 +95,6 @@ def GLMCMatrixProcessingUnit(mat):
     energy = np.sqrt(asm)
 
     return contrast, dissimilarity, homogeneity, asm, energy, entropy
-# def GLMCMatrixProcessingUnitTest(mat,level): # Get All of the Property of GLCM matriks
-#     level = level-1
-#     mean_i, mean_j, std_i, std_j = 0,0,0,0
-#     contrast, dissimiliarity,homogeniety,asm,energy,Entropy, correlation = 0,0,0,0,0,0,0
-
-#     contrast = np.sum()
-#     for i in range(level):
-#         for j in range(level):
-#             px = mat[i,j]
-#             contrast += (px * (i-j)**2)
-#             homogeniety += (px/ (1 + (i-j)**2))
-#             dissimiliarity += (px* abs(i-j))
-#             asm +=  (px**2)
-            
-#             if px != 0:
-#                 Entropy -=  (px * np.log(px))
-
-#             mean_i += i * px
-#             mean_j += j * px
-#             std_i += ((i - mean_i) **2)  * px
-#             std_j += ((j - mean_j) **2) * px
-#     std_i = np.sqrt(std_i)
-#     std_j = np.sqrt(std_j)
-#     for i in range(level):
-#         for j in range(level):
-#             correlation += ((i - mean_i) * (j - mean_j) * mat[i,j]) / (std_i * std_j)
-    
-#     energy = np.sqrt(asm)
-#     return contrast, dissimiliarity, homogeniety, asm, energy, Entropy, correlation
-
 
 def cosine_similarity(vec1, vec2): # get the similarity of 2 Vector, In this case(2 property vectors)
     dot,l1,l2 = DotAndLength(vec1,vec2)

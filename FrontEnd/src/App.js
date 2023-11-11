@@ -3,7 +3,7 @@ import Hero from './components/Hero'
 import Navbar from './components/Navbar';
 import Reverse from './components/Reverse';
 import HowToUse from './components/HowToUse';
-
+import DatasetUpload from './components/dummyDataset';
 
 
 function App() {
@@ -14,7 +14,9 @@ function App() {
       <Hero />
       {/* <Test1 /> */}
       <Reverse />
+      <DatasetUpload />
       <HowToUse />
+      
     </div>
   );
 }
