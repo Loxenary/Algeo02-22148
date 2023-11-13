@@ -1,6 +1,11 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException,Form, Depends
 from typing import List
 from pathlib import Path
+from Texture_CBIR_Numba import Texture
+from Color_CBIR import Color
+import os
+import asyncio
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
@@ -8,9 +13,26 @@ app = FastAPI()
 UPLOAD_IMAGE_DIR = Path("input_images")
 UPLOAD_DATASET_DIR = Path("datasets")
 
+origins = ["http://localhost:3000"]  # Replace "*" with your frontend domain(s)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+class AppState:
+    isFunctionDone : bool = False
+    data = None
+    search_lock = asyncio.Lock()
+
+app_state = AppState()
+
 @app.post('/UploadImage/')
 
 async def UploadImage(input_image: UploadFile):
+
     existing_file= UPLOAD_IMAGE_DIR.glob("*")
     for file in existing_file:
         file.unlink()
@@ -21,7 +43,61 @@ async def UploadImage(input_image: UploadFile):
         f.write(data)
     return {"filenames": input_image.filename}
 
+@app.get("/showFile")
+async def showFile():
+    global app_state
+    async with app_state.search_lock:
+        print(app_state.data)
+        if(app_state.isFunctionDone and app_state.data is not None):
+            if(app_state.data != None):
+                app_state.isFunctionDone = False
+                return app_state.data
+    return {"message": "Function not done or data is None"}
+# @app.delete('/deleteSingleImage/')
+# async def deleteSingleImage(filename: str):
+#     image_path = UPLOAD_DATASET_DIR/filename
+#     if(image_path.exists()):
+#         image_path.unlink()
+#         return {"Image deleted successfully"}
+#     else:
+#         raise HTTPException(status_code= 404, detail= "image not found")
 
+
+@app.post('/reset-data')
+async def reset_data():
+    global app_state
+    async with app_state.search_lock:
+        app_state.data = None
+        app_state.isFunctionDone = False
+
+        input_data = UPLOAD_IMAGE_DIR.glob("*")
+        for file in input_data:
+            file.unlink()
+        existing_data= UPLOAD_DATASET_DIR.glob("*")
+        for file in existing_data:
+            file.unlink()
+
+        return {"message": "Data reset successfully"}
+
+
+@app.post('/search/')
+async def search(state : bool = Form(...)):
+    global app_state
+    async with app_state.search_lock:
+        dataset = f'{UPLOAD_DATASET_DIR}'
+        fileset = f'{UPLOAD_IMAGE_DIR}'
+        
+        isDatasetEmpty = not any(os.listdir(dataset))
+        isInputFileEmpty = not any(os.listdir(fileset))
+        if(not isInputFileEmpty and not isDatasetEmpty):
+            input_filename = [file for file in os.listdir(fileset)][0]
+            filename = f'{UPLOAD_IMAGE_DIR/input_filename}'
+            if(state):
+                app_state.data = Texture(filename, dataset)
+                app_state.isFunctionDone = True
+            else:
+                Color(filename, dataset)
+                app_state.isFunctionDone = True
 
 @app.post('/uploadDataset/')
 
@@ -46,3 +122,4 @@ async def uploadDataset(dataset: List[UploadFile] = File(...)):
         raise HTTPException(status_code=422, detail="No valid image files provided")
 
     return {"filenames": filenames}
+

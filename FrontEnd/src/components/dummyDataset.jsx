@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-const DatasetUpload = () => {
-  const [files, setFiles] = useState([]);
-  const [images, setImages] = useState([]);
+const DatasetUpload = ({ Data }) => {
+  const [ObjArr, setObj] = useState([]);
+  const [estTime, setTime] = useState(null)
+
+  const dataSet = () => {
+    const obj = [];
+
+    if(Data !== null){
+      console.log("jteoooooooooooooooooooooooooo")
+      for(const[key,value] of Object.entries(Data)){
+        if(key == 'Time'){
+          setTime(value);
+        }
+        else{
+          const imageUrl = URL.createObjectURL(key);
+          const id = uuidv4();
+          obj.push({file: null, id, imageUrl, similarities : value})
+        }
+      }
+      setObj(obj);
+    }  
+
+    
+  };
+
+  useEffect(() => {
+    console.log("Data: ", Data)
+    dataSet();
+     // Call dataSet when the component mounts or when Data prop changes
+  }, [Data]);
 
   const handleDatasetUpload = async (event) => {
     const uploadedFiles = event.target.files;
 
-    const uploadedImages = Array.from(uploadedFiles).map((file, index) => {
-      const imageUrl = URL.createObjectURL(file);
-      return { file, imageUrl, id: index };
-    });
-
     // Replace the existing files and images with the newly uploaded ones
-    setFiles(uploadedFiles);
-    setImages(uploadedImages);
-
     const formData = new FormData();
     for (let i = 0; i < uploadedFiles.length; i++) {
       formData.append('dataset', uploadedFiles[i]);
@@ -29,7 +49,8 @@ const DatasetUpload = () => {
       });
 
       if (response.ok) {
-        console.log("Worked");
+        // Trigger the update of images by updating the Data prop
+        console.log("aman")
       } else {
         console.error("Upload Dataset Failed");
       }
@@ -43,12 +64,12 @@ const DatasetUpload = () => {
       <form>
         <input type="file" onChange={handleDatasetUpload} multiple accept="image/*" />
       </form>
-
       {/* Display uploaded images */}
       <div>
-        {images.map(({ imageUrl, id }) => (
+        {ObjArr.map(({ imageUrl, id, similarities}) => (
           <div key={id} className="relative inline-block mr-4 mb-4">
             <img src={imageUrl} alt={`Uploaded ${id}`} className="w-32 h-32 object-cover" />
+            <p>Similarity : {similarities}</p>
           </div>
         ))}
       </div>
@@ -57,4 +78,3 @@ const DatasetUpload = () => {
 };
 
 export default DatasetUpload;
-

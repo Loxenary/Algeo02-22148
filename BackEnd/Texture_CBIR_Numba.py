@@ -2,18 +2,29 @@ import cv2
 import numpy as np
 import os
 import time
-from multiprocessing import Pool
 from numba import njit
 
 def Texture(filepath, folderpath): # Main Function
+
+    dataFile = []
+    dataSimilarity = []
     start_time = time.time()
     input_image = cv2.imread(filepath)
     vec1 = calculate_texture_features(input_image)
-    DataSetSimilarityProcess(folderpath, vec1)
+    DataSetSimilarityProcess(folderpath, vec1, dataFile, dataSimilarity)
     end_time = time.time()  # Record the end time
     elapsed_time = end_time - start_time  # Calculate the elapsed time
-
+    dataFile, dataSimilarity = mergeSort(dataFile,dataSimilarity) 
     print("Time taken: {:.2f} seconds".format(elapsed_time))
+    dataFile.append("Time")
+    dataSimilarity.append(elapsed_time)
+    print(dataSimilarity)
+    print("=================")
+    print()
+    sim_dict = dict(zip(dataFile,dataSimilarity))
+    print(sim_dict)
+    return sim_dict
+    
 
 def greyscaleTransform(image): # GreyScale Extracting
     height, width = image.shape[:2]
@@ -35,16 +46,52 @@ def calculate_texture_features(image): # Vector Occurence Extracting
     glcm_features = list(glcm_features)
     return glcm_features
 
-def DataSetSimilarityProcess(folder_path, input_image_vec): # Data set Processor
-    global dataArr
+def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilarity): # Data set Processor
     i = 0
     for filename in os.listdir(folder_path):
         img = cv2.imread(os.path.join(folder_path, filename))
         if img is not None:
             vec2 = calculate_texture_features(img)
             similarity = cosine_similarity(input_image_vec, vec2)
-            print(f"Similarity with dataset image {i}: {similarity * 100}")
+            dataFile.append(filename)
+            dataSimilarity.append(similarity*100)
+            # print(f"Similarity with dataset image {i}: {similarity * 100}")
+            # i += 1
+    
+
+
+def merge(firstfile, lastfile, firstsim, lastsim):
+    i,j = 0,0
+    file = []
+    sim = []
+    while i < len(firstsim) and j < len(lastsim):
+        if(firstsim[i] > lastsim[j]):
+            sim.append(firstsim[i])
+            file.append(firstfile[i])
             i += 1
+        else:
+            sim.append(lastsim[j])
+            file.append(lastfile[j])
+            j+=1
+    while i < len(firstsim):
+        sim.append(firstsim[i])
+        file.append(firstfile[i])
+        i += 1
+    while j < len(lastsim):
+        sim.append(lastsim[j])
+        file.append(lastfile[j])
+        j+=1
+    return file,sim
+
+def mergeSort(file, similarity):
+    if(len(similarity) <= 1):
+        return file,similarity
+    middle = len(similarity) // 2
+    firstFile, firstSim = mergeSort(file[:middle],similarity[:middle])
+    lastFile, lastSim = mergeSort(file[middle:],similarity[middle:])
+
+    return merge(firstFile,lastFile,firstSim,lastSim)
+
 @njit
 def co_occurance_mat(image, angle):
     height, width = image.shape[:2] # get the image height and width

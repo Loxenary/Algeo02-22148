@@ -14,9 +14,7 @@ function App() {
       <Hero />
       {/* <Test1 /> */}
       <Reverse />
-      <DatasetUpload />
       <HowToUse />
-      
     </div>
   );
 }
