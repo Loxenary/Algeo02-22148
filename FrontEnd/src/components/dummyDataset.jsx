@@ -9,13 +9,14 @@ const DatasetUpload = ({ Data }) => {
     const obj = [];
 
     if(Data !== null){
-      console.log("jteoooooooooooooooooooooooooo")
+
       for(const[key,value] of Object.entries(Data)){
         if(key == 'Time'){
           setTime(value);
         }
         else{
-          const imageUrl = URL.createObjectURL(key);
+          const filename = key
+          const imageUrl = `http://localhost:8000/datasets/${filename}`;
           const id = uuidv4();
           obj.push({file: null, id, imageUrl, similarities : value})
         }

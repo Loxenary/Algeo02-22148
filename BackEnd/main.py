@@ -6,6 +6,7 @@ from Color_CBIR import Color
 import os
 import asyncio
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 
 app = FastAPI()
@@ -28,6 +29,8 @@ class AppState:
     search_lock = asyncio.Lock()
 
 app_state = AppState()
+
+app.mount("/datasets", StaticFiles(directory=UPLOAD_DATASET_DIR), name = "datasets")
 
 @app.post('/UploadImage/')
 
