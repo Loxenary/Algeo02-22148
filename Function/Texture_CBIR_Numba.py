@@ -4,6 +4,7 @@ import os
 import time
 from multiprocessing import Pool
 from numba import njit
+import cache as cc
 
 def Texture(filepath, folderpath): # Main Function
     start_time = time.time()
@@ -39,12 +40,21 @@ def calculate_texture_features(image): # Vector Occurence Extracting
 def DataSetSimilarityProcess(folder_path, input_image_vec): # Data set Processor
     global dataArr
     i = 0
+    cache_file = "Function\cacheTextur.csv"
+    f = open(cache_file,'r')
+    df = f.readlines()
     for filename in os.listdir(folder_path):
+        idx = -1
         img = cv2.imread(os.path.join(folder_path, filename))
+        idx = cc.isinCache(filename,cache_file)
         if img is not None:
-            vec2 = calculate_texture_features(img)
+            if (idx != -1):
+                vec2 = cc.readHSV(df[idx])
+            else :
+                vec2 = calculate_texture_features(img)
+            cc.write_list_to_file(cache_file,filename,vec2)
             similarity = cosine_similarity(input_image_vec, vec2)
-            print(f"Similarity with dataset image {i}: {similarity * 100}")
+            print(f"Similarity with dataset image {filename}: {similarity * 100}")
             i += 1
 
 @njit

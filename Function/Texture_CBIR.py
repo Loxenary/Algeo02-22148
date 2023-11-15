@@ -3,6 +3,7 @@ import numpy as np
 import os
 import time
 from multiprocessing import Pool
+import cache as cc
 
 def Texture(filepath, folderpath): # Main Function
     start_time = time.time()
@@ -39,12 +40,21 @@ def calculate_texture_features(image): # Vector Occurence Extracting
 def DataSetSimilarityProcess(folder_path, input_image_vec): # Data set Processor
     global dataArr
     i = 0
+    cache_file = "Tubes_Algeo2_IF2110\Function\cacheTextur.csv"
+    f = open(cache_file,'r')
+    df = f.readlines()
     for filename in os.listdir(folder_path):
+        idx = -1
         img = cv2.imread(os.path.join(folder_path, filename))
+        idx = cc.isinCache(filename,cache_file)
         if img is not None:
-            vec2 = calculate_texture_features(img)
+            if (idx != -1):
+                vec2 = cc.readTexture(df[idx])
+            else :
+                vec2 = calculate_texture_features(img)
+                cc.write_list_to_file(cache_file,filename,str(vec2))
             similarity = cosine_similarity(input_image_vec, vec2)
-            print(f"Similarity with dataset image {i}: {similarity * 100}")
+            print(f"Similarity with dataset image {filename}: {similarity * 100}")
             i += 1
 
 def co_occurance_mat(image, angle, max): # Normalized Co Occurence Matrix
@@ -95,7 +105,7 @@ def GLMCMatrixProcessingUnit(mat):
     entropy = -np.sum(px * np.log(np.where(px != 0, px, 1)))
     energy = np.sqrt(asm)
 
-    return contrast, dissimilarity, homogeneity, asm, energy, entropy
+    return contrast, dissimilarity, entropy
 # def GLMCMatrixProcessingUnitTest(mat,level): # Get All of the Property of GLCM matriks
 #     level = level-1
 #     mean_i, mean_j, std_i, std_j = 0,0,0,0

@@ -1,6 +1,7 @@
 import tkinter as tk
 import Texture_CBIR as texture
 import Color_CBIR as color
+#import Texture_CBIR_Numba as nnn
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
 import os
@@ -16,15 +17,16 @@ def open_file():
         filename.set(file_path)
         image_default_value = file_path
         image = Image.open(image_default_value)
-        resized_image = image.resize((300, 300), Image.ANTIALIAS)
+        resized_image = image.resize((300, 300), Image.LANCZOS)
         the_image = ImageTk.PhotoImage(resized_image)
         image_displayer.config(image=the_image)
 
 def upload_dataset():
     filepath = filedialog.askdirectory(title= "Select a Folder")
+    global folderpath
     if filepath:
+        folderpath = filepath
         image_files = [f for f in os.listdir(filepath) if f.lower().endswith(('.jpg','.png','jpeg'))]
-
         if image_files:
             canvas3 = tk.Canvas(fifth_container)
             canvas3.grid(row=0,column = 0)
@@ -37,7 +39,7 @@ def upload_dataset():
             for image in image_files:
                 image_path = os.path.join(filepath, image)
                 image = Image.open(image_path)
-                resized_image = image.resize((image_width, image_heigth),Image.ANTIALIAS)
+                resized_image = image.resize((image_width, image_heigth),Image.LANCZOS)
                 the_image = ImageTk.PhotoImage(resized_image)
 
                 image_label = ttk.Label(canvas3, image=the_image)
@@ -58,11 +60,14 @@ def update_selection():
         slider.configure(troughcolor="green")
 def search(slider):
     #called when the search button is clicked
+    global folderpath
     if(slider.get() == 0):
-        color.Color()
+        if(folderpath):
+            color.Color(image_default_value,folderpath)
     else:
-        texture.Texture()
-
+        if(folderpath):
+            # texture.Texture(image_default_value, folderpath)
+            texture.Texture(image_default_value,folderpath)
 
 window = tk.Tk()
 window.geometry('1000x800')
@@ -75,10 +80,10 @@ main_container = ttk.Frame(master=window)
 
 second_container = ttk.Frame(master=main_container)
 
-image_default_value = 'imagenotfound2.png'
+image_default_value = 'Tubes_Algeo2_IF2110\Function\imagenotfound2.png'
 
 images = Image.open(image_default_value)
-resized_image = images.resize((350, 330), Image.ANTIALIAS)
+resized_image = images.resize((350, 330), Image.LANCZOS)
 the_image = ImageTk.PhotoImage(resized_image)
 image_displayer = ttk.Label(master=second_container, image=the_image)
 
@@ -94,6 +99,7 @@ label_color = tk.Label(slider_container, text="Color", width=5)
 slider = tk.Scale(slider_container, from_=0, to=1, orient="horizontal", length=50, sliderlength=10, showvalue=False)
 label_texture = tk.Label(slider_container, text="Texture", width=5)
 
+folderpath = ""
 search_button = tk.Button(third_container, text="Search", width=18, height=2,command= lambda : search(slider))
 
 
