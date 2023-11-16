@@ -2,10 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
   background-color: black;
 }
 
 h1{
   color: white;
+}
+
+@font-face {
+  font-family: Poppins-Medium;
+  src: url("./Poppins/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url("./Poppins/Poppins-Regular.ttf");
+}
+
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url("./Poppins/Poppins-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Black;
+  src: url("./Poppins/Poppins-Black.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url("./Poppins/Poppins-Bold.ttf");
+}
+
+@font-face {
+  font-family: Poppins-Light;
+  src: url("./Poppins/Poppins-Light.ttf");
+}
+
+@layer base {
+  .font-medium{
+    font-family: Poppins-Medium;
+  }
+
+  .font-regular{
+    font-family: Poppins-Regular;
+  }
+
+  .font-semibold{
+    font-family: Poppins-SemiBold;
+  }
+
+  .font-black{
+    font-family: Poppins-Black;
+  }
+
+  .font-bold{
+    font-family: Poppins-Bold;
+  }
+
+  .font-light{
+    font-family: Poppins-Light;
+  }
 }

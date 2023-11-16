@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import DatasetUpload from './dummyDataset';
+import DatasetUpload from './DatasetUpload';
 import Switch from './Switch'
 const Reverse = () => {
     // const [uploadedImageUrl, setUploadedImageUrl] = useState("https://fakeimg.pl/350x200");
@@ -15,6 +15,7 @@ const Reverse = () => {
     const [image, setImage] = useState("https://fakeimg.pl/350x200");
     const [isChecked, setIschecked] = useState(false)
     const [data, setData] = useState({})
+    const [Loading, setLoading] = useState(false);
 
     const getData  = async() => {
         try{
@@ -100,8 +101,9 @@ const Reverse = () => {
 
     }
     const switchpost = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         let switchstate = new FormData()
+        setLoading(true);
         switchstate.append('state',isChecked.toString());
         try {
             const endpoint = "http://localhost:8000/search/"
@@ -158,8 +160,7 @@ const Reverse = () => {
                                     <form>
                                         <input type='file' className='form-control hidden ' id='input_image' onChange={handleUploadChange} accept='image/*' />
                                     </form>
-
-                                    <button onClick={clickme} className='btn btn-primary w-100 mt-2 bg-[black] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-[aquamarine]'>Save my photo</button>
+                                    <button onClick={clickme} className='btn btn-primary w-100 mt-2 bg-[black] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-[aquamarine]'>Insert Image</button>
                                 </div>
                             </div>
                             <div className='flex gap-x-2'>
@@ -176,7 +177,7 @@ const Reverse = () => {
                     </div>
                 </div>
             </div>
-            <DatasetUpload Data={data}/>
+            <DatasetUpload Data={data} Loading={Loading} setLoading={setLoading}/>
         </div>
     )
 }

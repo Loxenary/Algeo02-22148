@@ -53,8 +53,9 @@ def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilari
         if img is not None:
             vec2 = calculate_texture_features(img)
             similarity = cosine_similarity(input_image_vec, vec2)
-            dataFile.append(filename)
-            dataSimilarity.append(similarity*100)
+            if(similarity * 100 > 40):
+                dataFile.append(filename)
+                dataSimilarity.append(similarity*100)
             # print(f"Similarity with dataset image {i}: {similarity * 100}")
             # i += 1
     

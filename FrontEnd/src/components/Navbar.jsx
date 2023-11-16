@@ -41,7 +41,7 @@
 
 import React, { useState } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
-import logo from './images/logo.png'
+import logotrans from './images/logotrans.png'
 
 
 const Navbar = () => {
@@ -52,10 +52,10 @@ const Navbar = () => {
     const closeMenu = () => setClick(false)
 
     return (
-        <div className='header bg-[aquamarine] fixed w-full top-0 left-0 transition duration-300 ease-in overflow-hidden z-10'>
+        <div className='header bg-[#FEFBF3] fixed w-full top-0 left-0 transition duration-300 ease-in overflow-hidden p-5 z-10'>
             <nav className='navbar flex justify-between items-center max-w-7xl mx-auto h-full px-4'>
                 <a href='/' className='logo'>
-                    <img src={logo} alt='logo' className='w-250 h-auto' />
+                    <img src={logotrans} alt='logo' className='h-[50px]' />
                 </a>
                 <div className='hamburger hidden'>
                     {click ? (
@@ -66,16 +66,16 @@ const Navbar = () => {
                 </div>
                 <ul className={`${click ? 'nav-menu active' : 'nav-menu'} md:flex md:ml-0 md:space-x-4`}>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-white'>Home</a>
+                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Home</a>
                     </li>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-white'>Information</a>
+                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Information</a>
                     </li>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-white'>How To Use</a>
+                        <a href='#touse' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>How To Use</a>
                     </li>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-white'>About Us</a>
+                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>About Us</a>
                     </li>
                 </ul>
             </nav>
