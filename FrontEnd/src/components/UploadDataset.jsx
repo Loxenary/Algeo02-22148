@@ -91,7 +91,7 @@ const UploadDataset = ({ Data }) => {
   }, [Data]);
 
   const handleDatasetUpload = async (event) => {
-    const uploadedFiles = event.target.files;
+    const uploadedFiles = event.target.files[0];
 
     // Replace the existing files and images with the newly uploaded ones
     const formData = new FormData();

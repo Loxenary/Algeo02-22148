@@ -25,13 +25,13 @@ const HowToUse = () => {
               </p>
           </div>
           <div className='w-full bg-white shadow-xl flex flex-col p-4 my-4 rounded-lg h-[400px] hover:scale-105 duration-300'>
-              <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-yellow-100 py-8 my-10'>Step 3</h2>
+              <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-yellow-100 py-8 my-10'>Step 4</h2>
               <p className='text-center '>
                 The program will then process, searching for images from the dataset that have similarities to the image entered earlier.
               </p>
           </div>
           <div className='w-full bg-white shadow-xl flex flex-col p-4 my-4 rounded-lg h-[400px] hover:scale-105 duration-300'>
-              <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-emerald-100 py-8 my-10'>Step 3</h2>
+              <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-emerald-100 py-8 my-10'>Step 5</h2>
               <p className='text-center'>
                 The program will display a collection of similar images, sorted from the highest to the lowest. The similarity percentage and the program's execution time will also appear.
               </p>

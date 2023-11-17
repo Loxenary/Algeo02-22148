@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PaginationButton from "./PaginationButton";
-import UseDataFetcher from './UseDataFetcher';
 import DataResult from './DataResult';
 import ReactPaginate from 'react-paginate';
 import {BeatLoader} from 'react-spinners';
