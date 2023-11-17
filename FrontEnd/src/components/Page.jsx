@@ -82,7 +82,6 @@ function Page({onDataUpdate, setImages}) {
       <img src={WebBG} alt="Background Website" className="h-full w-full fixed top-0 left-0 z-[-100] text-[#2F3238]" />
 
       <div className='mt-[75px]' />
-      <div className='flex flex-col items-center justify-center'>
         <div className="shadow-xl h-[350px] w-[800px] rounded-3xl bg-black bg-opacity-20 p-8 flex justify-between items-center backdrop-blur-sm">
           <div className='flex flex-col items-center gap-y-4'>
             <p className='font-bold text-2xl text-white'>Camera</p>
@@ -111,8 +110,7 @@ function Page({onDataUpdate, setImages}) {
             />
           </div>
         </div>
-        <button type="submit" className='bg-[black] w-[200px] rounded-full font-medium mt-10 mx-auto py-3 text-[aquamarine]' >Search</button>
-      </div>
+
     </section>
     
   );

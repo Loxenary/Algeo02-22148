@@ -38,6 +38,9 @@ const API = {
         if(Object.keys(file).length > 1){
             setData(file);
         }
+        else{
+          alert("PLEASE INPUT DATASET or INPUT IMAGE FIRST")
+        }
         console.log("getData called successfully");
       } catch (error) {
         console.error("error:", error);
