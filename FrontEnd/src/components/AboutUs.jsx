@@ -1,6 +1,6 @@
 import React from 'react'
 import Chika from './images/chiks.png'
-import Davis from './images/dvspng.png'
+import Davis from './images/Dave.jpg'
 import Rafa from './images/rafa.png'
 
 const AboutUs = () => {
