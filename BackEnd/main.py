@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException,Form, Depends
 from typing import List
 from pathlib import Path
-from Texture_CBIR_Numba import Texture
+from Texture_CBIR import Texture
 from Color_CBIR import Color
 import os
 import asyncio
@@ -50,7 +50,6 @@ async def UploadImage(input_image: UploadFile):
 async def showFile():
     global app_state
     async with app_state.search_lock:
-        print(app_state.data)
         if(app_state.isFunctionDone and app_state.data is not None):
             if(app_state.data != None):
                 app_state.isFunctionDone = False
@@ -99,7 +98,7 @@ async def search(state : bool = Form(...)):
                 app_state.data = Texture(filename, dataset)
                 app_state.isFunctionDone = True
             else:
-                Color(filename, dataset)
+                app_state.data = Color(filename, dataset)
                 app_state.isFunctionDone = True
 
 @app.post('/uploadDataset/')

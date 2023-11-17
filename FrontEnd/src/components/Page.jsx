@@ -5,7 +5,7 @@ const WebBG = 'WebBG.jpg'; // Assuming you have the image in your public folder
 
 function Page() {
   const webcamRef = useRef(null);
-  const [displayed, setDisplayed] = useState('');
+  const [displayed, setDisplayed] = useState("https://fakeimg.pl/350x200");
   const [countdown, setCountdown] = useState(5);
 
   useEffect(() => {
@@ -45,12 +45,12 @@ function Page() {
           <Webcam
             audio={false}
             ref={webcamRef}
-            screenshotFormat="image/jpeg" // You can add this line if needed
+            screenshotFormat="image/jpeg" 
             videoConstraints={{
-              width: 1280, // Specify your desired video width
-              height: 720,  // Specify your desired video height
+              width: 1920, // Specify your desired video width
+              height: 1080,  // Specify your desired video height
             }}
-            className='rounded-lg h-[250px] w-[325px] '
+            className='rounded-lg h-[250px] w-[325px]'
           />
         </div>
         <div className='flex flex-col items-center gap-y-4'>
@@ -58,9 +58,9 @@ function Page() {
           <img
             src={displayed}
             alt="Captured Image"
-            height={325}
+            height={250}
             width={325}
-            className='border-black border-2 border-opacity-5 rounded-xl '
+            className='border-black border-2 border-opacity-5'
           />
         </div>
       </div>
