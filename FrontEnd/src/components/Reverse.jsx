@@ -131,7 +131,7 @@ const Reverse = () => {
                 </div>
             </div>
             <Camera setCam={setCam} onDataUpdate={handleCameraChange} setImages={setImage}/>
-            {image != "https://fakeimg.pl/350x200" ? ( <DatasetUpload Data={data} Loading={Loading} setLoading={setLoading}/>) : (<h3 className='pt-12 text-center text-2xl font-[Poppins-SemiBold]'>PLS UPLOAD YOUR IMAGE INPUT FIRST !!!</h3>)}
+            {image !== "https://fakeimg.pl/350x200" ? ( <DatasetUpload Data={data} Loading={Loading} setLoading={setLoading}/>) : (<h3 className='pt-12 text-center text-2xl font-[Poppins-SemiBold]'>PLS UPLOAD YOUR IMAGE INPUT FIRST !!!</h3>)}
            
         </div>
     )

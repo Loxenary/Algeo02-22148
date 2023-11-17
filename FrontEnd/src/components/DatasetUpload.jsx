@@ -9,7 +9,6 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
 
   const dataSet = () => {
     const obj = [];
-    console.log("TEST DATA CONFIRMED");
     if (Data !== null) {
       for (const [key, value] of Object.entries(Data)) {
         if (key === 'Time') {
@@ -66,6 +65,12 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
     } 
   };
 
+  const fileCounter = (event) => {
+    if(event.target.files.length > 0){
+      setFileCount(event.target.files.length);
+    }
+  }
+
   return (
     <div className='flex flex-col justify-center items-center py-14 w-full' id='dataset'>
       <form>
@@ -77,7 +82,7 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
           webkitdirectory = ""
           onChange={(event) => {
             handleDatasetUpload(event);
-            setFileCount(event.target.files.length);
+            fileCounter(event);
           }}
           multiple
           accept='image/*'

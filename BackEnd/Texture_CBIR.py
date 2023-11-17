@@ -57,12 +57,12 @@ def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilari
         img = cv2.imread(os.path.join(folder_path, filename))
         if img is not None:
             if(idx != -1):
-                vec2 = cc.readHSV(df[idx])
+                vec2 = cc.readTexture(df[idx])
             else:
                 vec2 = calculate_texture_features(img)
             cc.write_list_to_file(cache_file,filename,vec2)
             similarity = cosine_similarity(input_image_vec, vec2)
-            if(similarity * 100 > 40):
+            if(similarity * 100 >=  60):
                 dataFile.append(filename)
                 dataSimilarity.append(similarity*100)
 

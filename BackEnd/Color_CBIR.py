@@ -139,8 +139,10 @@ def DataSetHSVBlockProcess(folder_path, img_h, img_v, img_s, dataFile, dataSimil
                 total_similarity += block_similarity
 
             similarity = (total_similarity/4) #changes : /4
-            dataFile.append(filename)
-            dataSimilarity.append(similarity)
+            if(similarity >= 60):
+                dataFile.append(filename)
+                dataSimilarity.append(similarity)
+            
 
 def cmax(R, G, B):
     maximum = R
