@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import DatasetUpload from './DatasetUpload';
 import Switch from './Switch'
+import Camera from './Camera';
+
 const Reverse = () => {
     // const [uploadedImageUrl, setUploadedImageUrl] = useState("https://fakeimg.pl/350x200");
 
@@ -139,9 +141,9 @@ const Reverse = () => {
     }
 
     return  (
-        <div className='w-full bg-white py-16 px-4' id='reverse'>
-            <div className='w-full flex items-center justify-center '>
-                <div className='flex flex-row items-center justify-between gap-36'>
+        <div className='w-full bg-white py-10 px-0' id='reverse'>
+            <div className='w-full flex py-20 items-center justify-center '>
+                <div className='flex flex-row mx-20 items-center justify-between gap-36'>
                     <div className='Upload'>
                         <div className='d-flex justify-content-center align-items-center'>
                             <div className='w-25 mt-5 mx-auto float-left'>
@@ -151,9 +153,8 @@ const Reverse = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='max-w-[1240px] mx-auto flex-col flex'>
+                    <div className='max-w-[1240px] mx-auto flex-col flex items-center'>
                         <div className='flex-col flex gap-x-2'>
-                        
                             <div className='my-3 items-end'>
                                 <h2 className='font-bold text-2xl text-center'>Image Input</h2>
                                 <div className='flex justify-center'>
@@ -170,13 +171,14 @@ const Reverse = () => {
                             </div>
                         </div>
                         <form onSubmit={switchpost}>
-                            <button type="submit" className='bg-[black] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-[aquamarine]'>Search</button>
+                            <button type="submit" className='bg-[black] w-[200px] rounded-full font-medium my-6 mx-auto py-3 text-[aquamarine]'>Search</button>
                             </form>
        
                    
                     </div>
                 </div>
             </div>
+            <Camera />
             <DatasetUpload Data={data} Loading={Loading} setLoading={setLoading}/>
         </div>
     )

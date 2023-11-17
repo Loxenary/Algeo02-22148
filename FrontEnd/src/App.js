@@ -19,7 +19,7 @@ function App() {
       <Reverse />
       {/* <Page /> */}
       {/* <DatasetUpload /> */}
-      <Camera />
+
       <HowToUse />
     </div>
   );

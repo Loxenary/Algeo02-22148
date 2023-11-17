@@ -86,7 +86,7 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
       </form>
       <button
         onClick={clickme}
-        className='btn btn-primary w-100 mt-2 bg-[black] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-[aquamarine]'
+        className='btn btn-primary w-100 mt-2 bg-[black] w-[200px] rounded-full font-medium my-6 mx-auto py-3 text-[aquamarine]'
         multiple
       >
         Upload Dataset
