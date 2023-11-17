@@ -78,27 +78,7 @@ def Histogram_Calculation(HSV_Value, bins):
         histogram = [val/sums_values for val in histogram]
     
     return histogram
-
-def DataSetHSVProcess(folder_path,img_h, img_s,img_v):
-
-    # dataset_hist = []
-    global dataArr
-    i = 0
-    for filename in os.listdir(folder_path):
-        dataArr.append(filename)
-        img = cv2.imread(os.path.join(folder_path, filename))
-        if img is not None:
-            
-            hist_h, hist_s, hist_v = HSVBlockProcessor(img)
-            similarity_h = cosine_similarity(img_h, hist_h)
-            similarity_s = cosine_similarity(img_s,hist_s)
-            similarity_v = cosine_similarity(img_v,hist_v)
-            
-            # dataset_hist.append((hist_h, hist_s, hist_v))
-            similarity = ((similarity_h + similarity_s + similarity_v) / 3) * 100
-
-            print(f"Similarity with dataset image {i}: {similarity}")
-            i += 1  
+  
 
 def DataSetHSVBlockProcess(folder_path, img_h, img_v,img_s):
     global dataArr
