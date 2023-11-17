@@ -114,10 +114,10 @@ async def uploadDataset(dataset: List[UploadFile] = File(...)):
     for file in dataset:
         if file.content_type.startswith('image/'):
             data = await file.read()
-            save_to = UPLOAD_DATASET_DIR / file.filename
+            save_to = UPLOAD_DATASET_DIR / file.filename.split('/')[-1]
             with open(save_to, 'wb') as f:
                 f.write(data)
-            filenames.append(file.filename)
+            filenames.append(save_to.relative_to(UPLOAD_DATASET_DIR).as_posix())
 
     # Check if no valid files were found
     if not filenames:

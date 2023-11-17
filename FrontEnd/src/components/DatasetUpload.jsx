@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
 import {PulseLoader} from 'react-spinners';
@@ -7,7 +7,6 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
   const [ObjArr, setObj] = useState([]);
   const [estTime, setTime] = useState(null);
   const [fileCount, setFileCount] = useState(0);
-  const fileInputRef = useRef(null);
 
   const dataSet = () => {
     const obj = [];
@@ -41,9 +40,11 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
    
     const uploadedFiles = event.target.files;
 
+    // const imageFiles = Array.from(uploadedFiles).filter(file => file.type.startsWith('image/'));
     // Replace the existing files and images with the newly uploaded ones
     const formData = new FormData();
     for (let i = 0; i < uploadedFiles.length; i++) {
+      console.log("TEST",uploadedFiles[i]);
       formData.append('dataset', uploadedFiles[i]);
     }
 
@@ -51,8 +52,8 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
       const endpoint = 'http://localhost:8000/uploadDataset/';
       const response = await fetch(endpoint, {
         method: 'POST',
-        mode : 'no-cors',
         body: formData,
+        mode : 'no-cors'
       });
 
       if (response.ok) {
@@ -64,29 +65,22 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
     } catch (error) {
       console.error(error);
     } 
-
   };
-
-
 
   return (
     <div className='flex flex-col justify-center items-center py-14 w-full' id='dataset'>
       <form>
         <input
-          type="file"
-          ref={fileInputRef}
-          // onChange={handleFileChange}
-          directory=""  // for Chrome
-          webkitdirectory=""  // for Chrome
-          mozdirectory=""  // for Firefox
-          // type='file'
+          type='file'
           className='form-control hidden'
           id='input_images'
+          directory =""
+          webkitdirectory = ""
           onChange={(event) => {
             handleDatasetUpload(event);
             setFileCount(event.target.files.length);
           }}
-          // multiple
+          multiple
           accept='image/*'
         />
       </form>
