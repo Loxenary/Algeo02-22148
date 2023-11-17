@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Pagination from './Pagination';
-import {PulseLoader} from 'react-spinners';
 
 const DatasetUpload = ({ Data, Loading, setLoading}) => {
   const [ObjArr, setObj] = useState([]);
@@ -10,7 +9,7 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
 
   const dataSet = () => {
     const obj = [];
-
+    console.log("TEST DATA CONFIRMED");
     if (Data !== null) {
       for (const [key, value] of Object.entries(Data)) {
         if (key === 'Time') {

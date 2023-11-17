@@ -1,18 +1,49 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Webcam from 'react-webcam';
 
 const WebBG = 'WebBG.jpg'; // Assuming you have the image in your public folder
 
-function Page() {
+
+function Page({onDataUpdate, setImages}) {
   const webcamRef = useRef(null);
   const [displayed, setDisplayed] = useState("https://fakeimg.pl/350x200");
   const [countdown, setCountdown] = useState(5);
+
+  const handleUploadChange = useCallback(async (event) => {
+
+    if (event) {
+      console.log(event);
+      let formData = new FormData();
+      formData.append('input_image', dataURLtoFile(event, "Cam.jpg"));
+      try {
+        const endpoint = "http://localhost:8000/UploadImage/";
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("Besok Berhasil");
+          if (onDataUpdate) {
+            onDataUpdate();
+          }
+        } else {
+          console.error("Upload failed");
+        }
+      } catch (error) {
+        console.error("Error during fetch: ", error);
+      }
+    }
+  }, [onDataUpdate]);
+
 
   useEffect(() => {
     const captureInterval = setInterval(() => {
       if (webcamRef.current) {
         const imageSrc = webcamRef.current.getScreenshot();
         setDisplayed(imageSrc);
+        handleUploadChange(imageSrc);
+        setImages(imageSrc);
         setCountdown(6);
       }
     }, 5000);
@@ -23,11 +54,27 @@ function Page() {
       }
     }, 1000);
 
-    return () => {
+    return (event) => {
       clearInterval(captureInterval);
       clearInterval(countdownInterval);
     };
-  }, []);
+  }, [onDataUpdate, handleUploadChange]);
+
+  const dataURLtoFile = (dataURL, filename) => {
+    const arr = dataURL.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const arr8bit = new Uint8Array(n);
+  
+    while (n--) {
+      arr8bit[n] = bstr.charCodeAt(n);
+    }
+  
+    return new File([arr8bit], filename, { type: mime });
+  };
+
+
 
 
   return (
@@ -64,9 +111,10 @@ function Page() {
             />
           </div>
         </div>
-        <button type="submit" className='bg-[black] w-[200px] rounded-full font-medium mt-10 mx-auto py-3 text-[aquamarine]'>Search</button>
+        <button type="submit" className='bg-[black] w-[200px] rounded-full font-medium mt-10 mx-auto py-3 text-[aquamarine]' >Search</button>
       </div>
     </section>
+    
   );
 }
 
