@@ -5,9 +5,9 @@ import Rafa from './images/rafa.png'
 
 const AboutUs = () => {
   return (
-    <div className='w-full py-[8rem] px-4 bg-green-100' id="touse">
+    <div className='w-full py-[8rem] px-4 bg-emerald-100' id="about">
       <div className='max-w-[1240px] mx-auto grid md:grid-cols-2 gap-8 gap-y-24'>
-          <h1 className='text-black md:text-8xl p-10 pt-10 sm:text-4xl flex items-center justify-center text-xl font-bold py-4'>ABOUT US.</h1>
+          <h1 className='text-black md:text-9xl p-10 pt-10 sm:text-4xl flex items-center justify-center text-xl font-bold py-4'>ABOUT US.</h1>
           <div className='w-full bg-white shadow-xl flex flex-col p-4 my-4 rounded-lg h-[400px] hover:scale-105 duration-300'>
               <img src={Davis} alt="" className='rounded-full border-8 border-white mx-auto mt-[-5rem] object-cover w-[200px] h-[200px]'/> 
               <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-yellow-100 py-3 my-3'>Davis</h2>

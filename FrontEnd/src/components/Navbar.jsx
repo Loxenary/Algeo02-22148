@@ -69,13 +69,13 @@ const Navbar = () => {
                         <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Home</a>
                     </li>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Information</a>
+                        <a href='#info' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Information</a>
                     </li>
                     <li className='nav-item'>
                         <a href='#touse' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>How To Use</a>
                     </li>
                     <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>About Us</a>
+                        <a href='#about' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>About Us</a>
                     </li>
                 </ul>
             </nav>

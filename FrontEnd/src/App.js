@@ -21,6 +21,7 @@ function App() {
       <Reverse />
       {/* <Page /> */}
       {/* <DatasetUpload /> */}
+      <Information />
       <HowToUse />
       <AboutUs />
     </div>
