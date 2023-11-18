@@ -18,7 +18,8 @@
 
 ## Technology-Involved
 > Backend : Fastapi, python
-> Frontend : React, Tyescript
+
+> Frontend : React, Typescript
 ## SETUP
 - Download all of the files in this github repository
 - Backend
@@ -62,5 +63,26 @@
 - Input from file
 - Switch between Color and Texture
 # Screenshots
-> HOME Screen
-<img width="830" alt="image" src="https://github.com/Loxenary/Algeo02-22148/assets/110291644/9832c7f4-3304-4668-a8a0-376e4f9680ad">
+### HOME Screen
+<img src="img/Home.png" alt="Home Screen" width="400" />
+
+### Not Inputted Image
+<img src="img/Uninput.png" alt="Not Inputted Image" width="400" />
+
+### Inputted Image
+<img src="img/Inputted.png" alt="Inputted Image" width="400" />
+
+### Camera
+<img src="img/Camera.png" alt="Camera" width="400" />
+
+### Image Scrapping
+<img src="img/ImageScrapping.png" alt="Image Scrapping" width="400" />
+
+### Penjelasan Program
+<img src="img/PenjelasanProgram.png" alt="Penjelasan Program" width="400" />
+
+### How To Use
+<img src="img/HowToUse.png" alt="How To Use" width="400" />
+
+### About Us
+<img src="img/AboutUs.png" alt="About Us" width="400" />
