@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Project Name
+> TUGAS ALGEO KELOMPOK CBIR.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> WEB untuk melakukan data similarity Extracting untuk Image dengan Dataset dengan 2 teknik utama yaitu CBIR melalui tekstur dan CBIR melalui Color
 
-## Available Scripts
+# Table Of Contents
+* [General Inforamation About Website](#Information)
+* [Technology Involved in the Project](#Technology-Involved)
+* [Web Setup](#SETUP)
+* [How to use](#how-to-use)
+* [Features](#Features)
+* [Screenshots of our website](#Screenshots)
+  
+## Information
+- A website that can do a data similarity checking of a dataset and an input image
+- This website is a starter for us to learn a machine learning as how it works is basically the smae
+- This website is also a task completion of a geometrical Algebra 
 
-In the project directory, you can run:
+## Technology-Involved
+> Backend : Fastapi, python
+> Frontend : React, Tyescript
+## SETUP
+- Download all of the files in this github repository
+- Backend
+  - python that is used has to be with version > 8 and < 12
+  - Install Virtual Environment (if not installed yet). Run 'pip install virtualenv'
+  - Create the virtual environtment
+    - go to the project directory, proceed to src/BackEnd
+    - Create virtual environtment by running 'virtualenv venv' (this venv is optional) in terminal
+  - Run the virtual environtment
+    - Proceed to the backend directory at src/BackEnd
+    - run venv/Scripts/activate.ps1 (windows)
+    - run source env/bin/activate.ps1 (macOS or Unix)
+    - if in the terminal there has been "(venv)" in the right side, the virtual environtment has been completely executed
+- Install Dependencies
+    - after run the virtual environtment
+    - run commands 'pip install -r requirement.txt'
+- Frontend
+    - Download node-js. The version we use are 18.17.1. Download Link: (https://nodejs.org/en/download)
+    - Download dependencies
+      - run 'npm install' to get all of the frontend dependencies
+    - Build the web
+      - run 'npm run build'
+      - run serve -s build'
+      - go to localhost
+    - If the builds didn't work try Start development server
+      - run 'npm run start'
+> Make sure to run both backend server and frontend server at the same times
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## How To Use
+- SETUP The Web. Checks on [SETUP](#SETUP)
+- there are 3 ways to input
+- Click insert images to input any images from file explorer
+- Click open camera to use camera as an input
+- Click open Scraping to use scrapping url as an input
+- Then insert your datasets using upload datasets
+- lastly click on search button to see the result
+- 
+## Features
+- Input using Camera
+- Input using Image Scrapping
+- Input from file
+- Switch between Color and Texture
+# Screenshots
+> HOME Screen
+<img width="830" alt="image" src="https://github.com/Loxenary/Algeo02-22148/assets/110291644/9832c7f4-3304-4668-a8a0-376e4f9680ad">
