@@ -4,11 +4,11 @@ def clearCache(file_path):
     f.write("")
     f.close()
 
-def write_to_file(file_path,filename,data1,data2,data3):
+def write_to_file(file_path,filename,data1,data2,data3): # menulis cache color
     f = open(file_path, 'a')
     f.write(filename+";"+data1+";"+data2+";"+data3+"\n")
 
-def write_list_to_file(file_path,filename,list):
+def write_list_to_file(file_path,filename,list): # menulis cache tekstur
     f = open(file_path,'a')
     f.write(filename+";"+str(list)+"\n")
 
@@ -23,7 +23,7 @@ def isinCache(filename,cachefile):
 
 
     
-def cachefilelist(cachefile):
+def cachefilelist(cachefile): #list dari nama file yang ada di cache
     f = open(str(cachefile),'r')
     df = f.readlines()
     file_list = []
@@ -33,7 +33,7 @@ def cachefilelist(cachefile):
     return file_list
 
 
-def readHSV(txt):
+def readHSV(txt): #untuk membaca cache color
     temp = []
     tempmatrix = []
     list_h = []
@@ -69,7 +69,7 @@ def readHSV(txt):
     print(list_v)'''
     return list_1,list_2,list_3
 
-def readTexture(txt):
+def readTexture(txt): #untuk membaca cache texture
     x = txt.split(";")
     temp = []
     a = ''

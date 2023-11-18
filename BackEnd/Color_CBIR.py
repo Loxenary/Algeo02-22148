@@ -12,7 +12,6 @@ def Color(filepath, folderpath):
 
     start_time = time.time()
     input_image = cv2.imread(filepath)
-    #Global Dataset
     
     #Block Dataset
     img_h, img_s, img_v = block_processing(input_image)
@@ -34,9 +33,10 @@ def Color(filepath, folderpath):
 def cosine_similarity(hist1, hist2):
     length1 = length_vec(hist1)
     length2 = length_vec(hist2)
-    if length1 == 0 or length2 == 0:
-        return 0
-    
+    if length1 == 0 and length2 == 0:
+            return 1
+    elif length1 == 0 or length2 ==0:
+            return 0
     similarity = dot(hist1, hist2) / (length1 * length2)
     return similarity
 
@@ -56,15 +56,18 @@ def length_vec(vec1):
 
 def HSVBlockProcessor(image, x_Start, x_End, y_Start, y_End):
     
-    R,G,B = cv2.split(image)
+    R,G,B = cv2.split(image) 
     
     H = []
     S = []
     V = []
 
+    # Normalisasi R,G,B
     R = R/255.0
     G = G/255.0
     B = B/255.0
+
+    # Mencari value H,S,V
     for i in range(y_Start, y_End):
         for j in range(x_Start,x_End):
             red = R[i][j] 
@@ -90,46 +93,23 @@ def Histogram_Calculation(HSV_Value, bins):
     if(sums_values > 0):
         histogram = [val/sums_values for val in histogram]
     
-    return histogram
-
-def DataSetHSVProcess(folder_path,img_h, img_s,img_v):
-
-    # dataset_hist = []
-    global dataArr
-    i = 0
-    for filename in os.listdir(folder_path):
-        dataArr.append(filename)
-        img = cv2.imread(os.path.join(folder_path, filename))
-        if img is not None:
-            
-            hist_h, hist_s, hist_v = HSVBlockProcessor(img)
-            similarity_h = cosine_similarity(img_h, hist_h)
-            similarity_s = cosine_similarity(img_s,hist_s)
-            similarity_v = cosine_similarity(img_v,hist_v)
-            
-            # dataset_hist.append((hist_h, hist_s, hist_v))
-            similarity = ((similarity_h + similarity_s + similarity_v) / 3) * 100
-
-            print(f"Similarity with dataset image {i}: {similarity}")
-            i += 1  
+    return histogram 
 
 def DataSetHSVBlockProcess(folder_path, img_h, img_v, img_s, dataFile, dataSimilarity):
-    global dataArr
     cachefile = "cacheHSV.csv"
     i = 0
     f = open(cachefile,'r')
     df = f.readlines()
     for filename in os.listdir(folder_path):
         idx = -1
-        dataArr.append(filename)
         img = cv2.imread(os.path.join(folder_path, filename))
-        idx = cc.isinCache(filename,cachefile)
+        idx = cc.isinCache(filename,cachefile) # menghasilkan index file dalam cache
         if img is not None:
-            if (idx != -1):
-                hist_h_list,hist_s_list,hist_v_list = cc.readHSV(df[idx])
-            else:
+            if (idx != -1): # index = -1 jika file tidak ada di cache
+                hist_h_list,hist_s_list,hist_v_list = cc.readHSV(df[idx]) # membaca file cache pada baris ke-idx dan mengembalikan nilai list h,s,dan v
+            else: # tidak ada di file cache
                 hist_h_list, hist_s_list, hist_v_list = block_processing(img)
-                cc.write_to_file(cachefile,str(filename),str(hist_h_list),str(hist_s_list),str(hist_v_list))
+                cc.write_to_file(cachefile,str(filename),str(hist_h_list),str(hist_s_list),str(hist_v_list)) # menuliskan ke cache file
             total_similarity = 0
             for i in range(16):
                 similarity_h = cosine_similarity(img_h[i], hist_h_list[i])
@@ -138,7 +118,7 @@ def DataSetHSVBlockProcess(folder_path, img_h, img_v, img_s, dataFile, dataSimil
                 block_similarity = ((similarity_h + similarity_s + similarity_v) / 3) * 100
                 total_similarity += block_similarity
 
-            similarity = (total_similarity/4) #changes : /4
+            similarity = (total_similarity/16)
             if(similarity >= 60):
                 dataFile.append(filename)
                 dataSimilarity.append(similarity)
@@ -171,7 +151,7 @@ def Saturation(R, G, B):
     delta = Delta(R, G, B)
     if (Cmax == 0):
         s = 0
-    else:
+    else: 
         s = delta / Cmax
         s = SVconv(s)
     return s
@@ -229,6 +209,7 @@ def block_Calculation(image):
     px = int(width / block)
     py = int(height / block)
     k = 0
+
     for i in range(block):
         for j in range(block):
             px_Separation[k] = int(px * (i + 1))
@@ -243,28 +224,18 @@ def block_processing(image):
     Hist_v_list = []
     for i in range(4):
         for j in range(4):
-            if(i == 0):
-                if (j == 0):
+            if(i == 0): # Blok kiri
+                if (j == 0): # Blok bawah
                     H,S,V = HSVBlockProcessor(image,0,px_Separation[i],0,py_Separation[j])
                 else:
                     H,S,V = HSVBlockProcessor(image,0,px_Separation[i],py_Separation[j-1],py_Separation[j])
             else:
-                if (j == 0):
+                if (j == 0): # Blok bawah
                     H,S,V = HSVBlockProcessor(image,px_Separation[i-1],px_Separation[i],0,py_Separation[j])
                 else:
                     H,S,V = HSVBlockProcessor(image,px_Separation[i-1],px_Separation[i],py_Separation[j-1],py_Separation[j])
             Hist_h_list.append(H)
             Hist_s_list.append(S)
             Hist_v_list.append(V)
-
-    '''for i in range(16):
-        if(i == 0):
-             H,S,V = HSVBlockProcessor(image,0,px_Separation[i],0,py_Separation[i])
-        else:
-            H,S,V = HSVBlockProcessor(image,px_Separation[i-1],px_Separation[i],py_Separation[i-1],py_Separation[i])
-        Hist_h_list.append(H)
-        Hist_s_list.append(S)
-        Hist_v_list.append(V)'''
     return Hist_h_list,Hist_s_list,Hist_v_list
 
-dataArr = []
