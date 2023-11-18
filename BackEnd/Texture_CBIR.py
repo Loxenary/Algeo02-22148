@@ -5,71 +5,67 @@ import time
 from numba import njit
 import cache as cc
 
+
 def Texture(filepath, folderpath): # Main Function
 
     dataFile = []
     dataSimilarity = []
     start_time = time.time()
     input_image = cv2.imread(filepath)
-    vec1 = calculate_texture_features(input_image)
-    DataSetSimilarityProcess(folderpath, vec1, dataFile, dataSimilarity)
+    vec1 = calculate_texture_features(input_image) # get GLCM Matrix features
+    DataSetSimilarityProcess(folderpath, vec1, dataFile, dataSimilarity) # get All similarities 
 
 
-    end_time = time.time()  # Record the end time
-    elapsed_time = end_time - start_time  # Calculate the elapsed time
-    dataFile, dataSimilarity = mergeSort(dataFile,dataSimilarity) 
+    end_time = time.time() 
+    elapsed_time = end_time - start_time  
+    dataFile, dataSimilarity = mergeSort(dataFile,dataSimilarity) # Get Sorted data
 
 
     dataFile.append("Time")
     dataSimilarity.append(elapsed_time)
-    sim_dict = dict(zip(dataFile,dataSimilarity))
+    sim_dict = dict(zip(dataFile,dataSimilarity)) # Create a dictionary to be passed as a JSON 
 
 
     return sim_dict
     
 
-def greyscaleTransform(image): # GreyScale Extracting
+def greyscaleTransform(image): # GreyScale Extracting 
     height, width = image.shape[:2]
-    bluePixels, greenPixels, redPixels = image[:, :, 0], image[:, :, 1], image[:,:,2]
-
+    bluePixels, greenPixels, redPixels = image[:, :, 0], image[:, :, 1], image[:,:,2] # Extracting RGB
+ 
 
     greyimage = np.zeros((height, width), dtype=float)
-    greyimage = 0.29 * redPixels + 0.587 * greenPixels + 0.114 * bluePixels
+    greyimage = 0.29 * redPixels + 0.587 * greenPixels + 0.114 * bluePixels 
     return greyimage
+
 def calculate_texture_features(image): # Vector Occurence Extracting
     # Perform grayscale transformation
     
     grey_image= greyscaleTransform(image)
-    # Calculate GLCM features
 
-    # glcm_features = [GLMCMatrixProcessingUnit(co_occurance_mat_Backup(grey_image,angle,max)) for angle in [0]]
-
-    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0))
-    glcm_features = list(glcm_features)
+    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0)) # Getting Image Feature from a GLCM Matrix using angle of 0
+    glcm_features = list(glcm_features) 
     return glcm_features
 
-def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilarity): # Data set Processor
+def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilarity): # Data set Processor, result = data of filenames and similarities (unsorted)
     cache_file = "cacheTextur.csv"
     f = open(cache_file,'r')
     df = f.readlines()
     for filename in os.listdir(folder_path):
-        idx = -1
+        idx = -1 # Caching Index
         img = cv2.imread(os.path.join(folder_path, filename))
         if img is not None:
             if(idx != -1):
-                vec2 = cc.readTexture(df[idx])
+                vec2 = cc.readTexture(df[idx]) # Cache 
             else:
                 vec2 = calculate_texture_features(img)
-            cc.write_list_to_file(cache_file,filename,vec2)
+            cc.write_list_to_file(cache_file,filename,vec2) # Cache
             similarity = cosine_similarity(input_image_vec, vec2)
-            if(similarity * 100 >=  60):
+            if(similarity * 100 >=  60): # get any data with >= 60 similarities
                 dataFile.append(filename)
                 dataSimilarity.append(similarity*100)
 
-    
-
-
-def merge(firstfile, lastfile, firstsim, lastsim):
+def merge(firstfile, lastfile, firstsim, lastsim): # Merge Sort with Similarities data as the value that is sorted
     i,j = 0,0
     file = []
     sim = []
@@ -92,31 +88,31 @@ def merge(firstfile, lastfile, firstsim, lastsim):
         j+=1
     return file,sim
 
-def mergeSort(file, similarity):
+def mergeSort(file, similarity): # Merge Sort Main Function
     if(len(similarity) <= 1):
         return file,similarity
     middle = len(similarity) // 2
-    firstFile, firstSim = mergeSort(file[:middle],similarity[:middle])
-    lastFile, lastSim = mergeSort(file[middle:],similarity[middle:])
+    firstFile, firstSim = mergeSort(file[:middle],similarity[:middle]) # getting the first middle half
+    lastFile, lastSim = mergeSort(file[middle:],similarity[middle:]) # getting the last middle half
 
     return merge(firstFile,lastFile,firstSim,lastSim)
 
-@njit
-def co_occurance_mat(image, angle):
+@njit # NUMBA Multi Thread Function
+def co_occurance_mat(image, angle): # creating co-occurance or GLCM Matrix
     height, width = image.shape[:2] # get the image height and width
     co_occurrence = np.zeros((256,256), dtype=np.float64)
 
     sudut = angle * (np.pi / 180)
-    offset_x = int(np.cos(sudut))  # Cast the result to int
-    offset_y = int(np.sin(sudut))  # Cast the result to int
+    offset_x = int(np.cos(sudut))  
+    offset_y = int(np.sin(sudut))  
 
-    for i in range(height):
+    for i in range(height): 
         for j in range(width):
             off_y = i + offset_y
             off_x = j + offset_x
             if 0 <= off_x < width and 0 <= off_y < height:
-                curr_val = int(image[i, j])  # Cast the result to int
-                off_val = int(image[off_y, off_x])  # Cast the result to int
+                curr_val = int(image[i, j]) 
+                off_val = int(image[off_y, off_x])  
                 co_occurrence[curr_val, off_val] += 1
     NormMatrix = NormSymmetric(co_occurrence)
     return NormMatrix
@@ -139,8 +135,8 @@ def NormSymmetric(mat): # Get the Normalized Value of Matriks (for Co-Occurence)
     return (mats/sums)
 
 
-def GLMCMatrixProcessingUnit(mat):
-    i, j = np.indices(mat.shape)
+def GLMCMatrixProcessingUnit(mat): # Get GLCM matrix features
+    i, j = np.indices(mat.shape) # indexing purposes 
     px = mat
 
     contrast = np.sum(px * (i - j) ** 2)

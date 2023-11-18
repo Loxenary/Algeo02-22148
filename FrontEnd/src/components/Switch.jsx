@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React,{} from 'react';
 
-const Switch = ({isChecked, onSwitchChange}) => {
+const Switch = ({isChecked,  onSwitchChange}) => {
 
     return (
         <label for='check' className='bg-gray-300 cursor-pointer relative w-20 h-10 rounded-full'>
