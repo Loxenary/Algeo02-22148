@@ -7,12 +7,13 @@ import os
 import asyncio
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-
+import cache as cc
 
 app = FastAPI()
 
 UPLOAD_IMAGE_DIR = Path("input_images")
 UPLOAD_DATASET_DIR = Path("datasets")
+
 
 origins = ["http://localhost:3000"]  # Replace "*" with your frontend domain(s)
 app.add_middleware(
@@ -83,7 +84,8 @@ async def reset_data():
         existing_data= UPLOAD_DATASET_DIR.glob("*")
         for file in existing_data:
             file.unlink()
-
+        cc.clearCache("./cacheHSV.csv")
+        cc.clearCache("./cacheTextur.csv")
         return {"message": "Data reset successfully"}
 
 
