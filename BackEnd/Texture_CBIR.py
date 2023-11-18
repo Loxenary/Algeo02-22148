@@ -59,7 +59,7 @@ def DataSetSimilarityProcess(folder_path, input_image_vec,dataFile, dataSimilari
                 vec2 = cc.readTexture(df[idx]) # Cache 
             else:
                 vec2 = calculate_texture_features(img)
-            cc.write_list_to_file(cache_file,filename,vec2) # Cache
+                cc.write_list_to_file(cache_file,filename,vec2) # Cache
             similarity = cosine_similarity(input_image_vec, vec2)
             if(similarity * 100 >=  60): # get any data with >= 60 similarities
                 dataFile.append(filename)
