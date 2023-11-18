@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Webcam from 'react-webcam';
+import React, { useState,useRef} from 'react';
 
 const WebBG = 'WebBG.jpg'; // Assuming you have the image in your public folder
 
 
 function PageScrapping({onDataUpdate, setImages}) {
-  const webcamRef = useRef(null);
   const [displayed, setDisplayed] = useState("");
       
   const handleImageScrapping = async ()=> {
