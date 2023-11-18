@@ -21,10 +21,11 @@ function PageScrapping({onDataUpdate, setImages}) {
         }
         const blob = await file.blob();
         const files = new File([blob], "Scrap.jpg", {type: blob.type});
-        if(files != null){
+        if(files == null){
             alert("URL ERROR");
             return;
         }
+        
         setImages(displayed)
         let formData = new FormData();
         formData.append('input_image',files);

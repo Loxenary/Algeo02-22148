@@ -75,9 +75,9 @@ const Reverse = () => {
         document.getElementById("input_image").click();
     }
 
-    const handleCameraChange = async () => {
+    const handleCameraChange = async (event) => {
         if(isCamOn){
-            await API.switchpost(isChecked, setLoading, setData, data);
+            await API.switchpost(event,isChecked, setLoading, setData, data);
 
         }
     }
