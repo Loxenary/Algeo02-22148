@@ -1,6 +1,6 @@
 // api.js
 const API = {
-    switchpost: async (isChecked, setLoading, setData, data) => {        
+    switchpost: async (isChecked, setLoading, setData, data) => {   // calling search backend server
         try {
           let switchstate = new FormData();
           if(Object.keys(data).length > 1){
@@ -28,12 +28,11 @@ const API = {
     
     },
   
-    getData: async (setData) => {
+    getData: async (setData) => { // get all the similarities and filenames data to the server
       try {
         const endpoint = "http://localhost:8000/showFile";
         const response = await fetch(endpoint);
         const file = await response.json();
-        // Assuming setData is also part of the API
 
         if(Object.keys(file).length > 1){
             setData(file);
@@ -47,7 +46,7 @@ const API = {
       }
     },
   
-    handleUploadChange: async (event, setImage) => {
+    handleUploadChange: async (event, setImage) => { // Handling single input image
         let uploaded = event.target.files[0];
       try {
         const url = URL.createObjectURL(uploaded);

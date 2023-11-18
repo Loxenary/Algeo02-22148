@@ -35,11 +35,16 @@ app.mount("/datasets", StaticFiles(directory=UPLOAD_DATASET_DIR), name = "datase
 @app.post('/UploadImage/')
 
 async def UploadImage(input_image: UploadFile):
+    
+    if(UPLOAD_IMAGE_DIR.exists() == False):
+        os.makedirs(UPLOAD_IMAGE_DIR)
 
     existing_file= UPLOAD_IMAGE_DIR.glob("*")
     for file in existing_file:
         file.unlink()
     
+    
+
     data = await input_image.read()
     save_to = UPLOAD_IMAGE_DIR / input_image.filename
     with open(save_to, 'wb') as f:
@@ -105,6 +110,9 @@ async def search(state : bool = Form(...)):
 
 async def uploadDataset(dataset: List[UploadFile] = File(...)):
     
+
+    if(UPLOAD_DATASET_DIR.exists() == False):
+        os.makedirs(UPLOAD_DATASET_DIR)
     existing_file= UPLOAD_DATASET_DIR.glob("*")
     for file in existing_file:
         file.unlink()
