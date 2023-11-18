@@ -1,13 +1,16 @@
 // api.js
 const API = {
-    switchpost: async (isChecked, setLoading, setData, data) => {   // calling search backend server
-        try {
+    switchpost: async (event,isChecked, setLoading, setData, data) => {   // calling search backend server
+      if(event){
+        event.preventDefault();
+      }
+      try {
           let switchstate = new FormData();
           if(Object.keys(data).length > 1){
               setLoading(true);
           }
           switchstate.append('state', isChecked.toString());
-    
+        
           const endpoint = "http://localhost:8000/search/";
           const response = await fetch(endpoint, {
             method: 'POST',

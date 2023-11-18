@@ -83,7 +83,7 @@ const Reverse = () => {
     }
     const handleSubmit = async (event) =>{
         event.preventDefault();
-        API.switchpost(isChecked, setLoading, setData ,data);
+        API.switchpost(event,isChecked, setLoading, setData ,data);
     }
 
     const handleFileChange = async (event) =>{
