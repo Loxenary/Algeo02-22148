@@ -99,9 +99,10 @@ const DatasetUpload = ({ Data, Loading, setLoading}) => {
         <p>Files upload: {fileCount}</p>
       ) : null}
       {/* Display uploaded images */}
-      <div>
-        <Pagination data={ObjArr} loading = {Loading} setLoading={setLoading} time = {estTime}/>
-      </div>
+      <div className='w-full'>
+
+      <Pagination data={ObjArr} loading={Loading} setLoading={setLoading} time={estTime} />
+    </div>
     </div>
   );
 };
