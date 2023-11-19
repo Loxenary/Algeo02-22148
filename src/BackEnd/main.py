@@ -12,8 +12,11 @@ import cache as cc
 app = FastAPI()
 
 UPLOAD_IMAGE_DIR = Path("input_images")
+if(UPLOAD_IMAGE_DIR.exists() == False):
+    os.makedirs(UPLOAD_IMAGE_DIR)
 UPLOAD_DATASET_DIR = Path("datasets")
-
+if(UPLOAD_DATASET_DIR.exists() == False):
+    os.makedirs(UPLOAD_DATASET_DIR)
 
 origins = ["http://localhost:3000"]  # Replace "*" with your frontend domain(s)
 app.add_middleware(

@@ -42,6 +42,7 @@
 import React, { useState } from 'react'
 import { FaBars, FaTimes } from 'react-icons/fa'
 import logotrans from './images/logotrans.png'
+import {Link} from 'react-scroll'
 
 
 const Navbar = () => {
@@ -65,17 +66,17 @@ const Navbar = () => {
                     )}
                 </div>
                 <ul className={`${click ? 'nav-menu active' : 'nav-menu'} md:flex md:ml-0 md:space-x-4`}>
-                    <li className='nav-item'>
-                        <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Home</a>
+                    <li className='nav-item font-semibold hover:text-emerald-300'>
+                        <Link to="home" spy={true} smooth={true} offset={-90} duration={500}>Home</Link>
                     </li>
-                    <li className='nav-item'>
-                        <a href='#info' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Information</a>
+                    <li className='nav-item font-semibold hover:text-emerald-300'>
+                        <Link to="info" spy={true} smooth={true} offset={-90} duration={500}>Information</Link>
                     </li>
-                    <li className='nav-item'>
-                        <a href='#touse' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>How To Use</a>
+                    <li className='nav-item font-semibold hover:text-emerald-300'>
+                        <Link to="touse" spy={true} smooth={true} offset={-90} duration={500}>How To Use</Link>
                     </li>
-                    <li className='nav-item'>
-                        <a href='#about' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>About Us</a>
+                    <li className='nav-item font-semibold hover:text-emerald-300'>
+                        <Link to="about" spy={true} smooth={true} offset={-90} duration={500}>About Us</Link>
                     </li>
                 </ul>
             </nav>
@@ -84,3 +85,5 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+{/* <a href='/' onClick={closeMenu} className='font-semibold hover:text-emerald-300'>Home</a> */}

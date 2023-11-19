@@ -53,7 +53,7 @@ function PageScrapping({onDataUpdate, setImages}) {
 
 
   return (
-    <section className='bg-emerald-100 w-full h-full pb-20 flex flex-col items-center justify-center'>
+    <section className='bg-yellow-100 w-full h-full pb-20 flex flex-col items-center justify-center'>
       <img src={WebBG} alt="Background Website" className="h-full w-full fixed top-0 left-0 z-[-100] text-[#2F3238]" />
 
       <div className='mt-[75px]' />
