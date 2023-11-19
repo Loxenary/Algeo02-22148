@@ -43,7 +43,7 @@ def calculate_texture_features(image): # Vector Occurence Extracting
     
     grey_image= greyscaleTransform(image)
 
-    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,0)) # Getting Image Feature from a GLCM Matrix using angle of 0
+    glcm_features = GLMCMatrixProcessingUnit(co_occurance_mat(grey_image,45)) # Getting Image Feature from a GLCM Matrix using angle of 0
     glcm_features = list(glcm_features) 
     return glcm_features
 
