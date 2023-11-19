@@ -30,20 +30,24 @@
     - Create virtual environtment by running 'virtualenv venv' (this venv is optional) in terminal
   - Run the virtual environtment
     - Proceed to the backend directory at src/BackEnd
-    - run venv/Scripts/activate.ps1 (windows)
-    - run source env/bin/activate.ps1 (macOS or Unix)
+    - run 'venv/Scripts/activate.ps1' (windows)
+    - run 'source env/bin/activate.ps1' (macOS or Unix)
     - if in the terminal there has been "(venv)" in the right side, the virtual environtment has been completely executed
-- Install Dependencies
+  - Install Dependencies
     - after run the virtual environtment
     - run commands 'pip install -r requirement.txt'
+  - Start the server
+    - try 'uvicorn main:app --reload' 
+    - if it doesn't works try 'python -m uvicorn main:app --reload'
+    - if it still doesn't work it might be your python problems or you haven't create a virtual environtment
 - Frontend
     - Download node-js. The version we use are 18.17.1. Download Link: (https://nodejs.org/en/download)
     - Download dependencies
       - run 'npm install' to get all of the frontend dependencies
     - Build the web
       - run 'npm run build'
-      - run serve -s build'
-      - go to localhost
+      - then run 'serve -s build'
+      - go to localhost 'http://localhost:3000'
     - If the builds didn't work try Start development server
       - run 'npm run start'
 > Make sure to run both backend server and frontend server at the same times
@@ -62,7 +66,7 @@
 - Input using Image Scrapping
 - Input from file
 - Switch between Color and Texture
-# Screenshots
+## Screenshots
 ### HOME Screen
 <img src="img/Home.png" alt="Home Screen" width="400" />
 
@@ -85,4 +89,4 @@
 <img src="img/HowToUse.png" alt="How To Use" width="400" />
 
 ### About Us
-<img src="img/AboutUs.png" alt="About Us" width="400" />
+<img src="img/About-us.png" alt="About Us" width="400" />

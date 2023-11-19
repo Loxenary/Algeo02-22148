@@ -12,8 +12,6 @@ const Reverse = () => {
     const [Loading, setLoading] = useState(false);
     const [isCamOn, setCam] = useState(false);
 
-
-
     const resetData = async() => {
         try{ 
             const endpoint = "http://localhost:8000/reset-data"
@@ -31,10 +29,11 @@ const Reverse = () => {
         }
     }
 
+
     // const HandleSubmit = async (event) =>{
     //     event.preventDefault();
 
-    //     let formData = new FormData();
+    //     let forsmData = new FormData();
     //     formData.append('input_image', file);
     //     try{
     //         const endpoint = "http://localhost:8000/UploadImage/";
@@ -58,8 +57,6 @@ const Reverse = () => {
         setIschecked(!isChecked);
 
     }
-
-    
     useEffect(() => {
         const handleBeforeRestart = async () => {
             await resetData();
@@ -70,6 +67,25 @@ const Reverse = () => {
             window.removeEventListener('beforeunload',handleBeforeRestart);
                 };
     }, [])
+
+    useEffect(() =>{
+        let timeoutID;
+        const handleTimeout = () =>{
+            alert('Somethings feels fishy. the page will be refreshed');
+            window.location.reload();
+        }
+        if(Loading){
+            timeoutID = setTimeout(() => {
+                setLoading(false);
+                handleTimeout();
+            },8000);
+        }
+        return () =>{
+            clearTimeout(timeoutID);
+        };
+    },[Loading])
+
+    
 
     function clickme(e){
         document.getElementById("input_image").click();

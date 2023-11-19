@@ -41,7 +41,7 @@ const API = {
             setData(file);
         }
         else{
-          alert("PLEASE INPUT DATASET or INPUT IMAGE FIRST")
+          alert("PLEASE INPUT DATASET of images !! or INPUT IMAGE FIRST!!")
         }
         console.log("getData called successfully");
       } catch (error) {
