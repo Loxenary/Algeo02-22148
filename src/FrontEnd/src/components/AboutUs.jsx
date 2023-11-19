@@ -1,5 +1,5 @@
 import React from 'react'
-import Chika from './images/chiks.png'
+import Chika from './images/chiks.jpg'
 import Davis from './images/Dave.jpg'
 import Rafa from './images/rafa.png'
 
@@ -19,7 +19,7 @@ const AboutUs = () => {
               <img src={Chika} alt="" className='rounded-full border-8 border-white mx-auto mt-[-5rem] object-cover w-[200px] h-[200px]'/> 
               <h2 className='text-2xl font-bold text-center rounded-full shadow-md bg-yellow-100 py-3 my-3'>Chika</h2>
               <p className='text-center pb-10 pt-8'>
-              Hey there, I'm Auralea, people call me Chika! I'm currently cruising through my sophomore year, majoring in Informatics Engineering at Institut Teknologi Bandung. When I'm not coding, you'll catch me jet-setting around the globe—traveling is my heartbeat. I'm interested in front-end web development, continually delving deeper into the world of webdev.
+              Hey there, I'm Auralea, people call me Chika! I'm currently cruising through my sophomore year, majoring in Informatics Engineering at Institut Teknologi Bandung. When I'm not coding, you'll catch me jet-setting around the globe—traveling is my heartbeat. I'm currently interested in front-end web development, and still learning and exploring the vast world of webdev. Besides web development, I would also like to dive into the world of artificial intelligence as I have always been curious about how it works.
               </p>
           </div>
           <div className='w-full bg-white shadow-xl flex flex-col p-4 my-4 rounded-lg h-[550px] hover:scale-105 duration-300'>

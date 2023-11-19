@@ -20,7 +20,7 @@ function Camera({setCam, switchPost,onDataUpdate, setImages}) {
     }
 
     return (
-        <div className='bg-emerald-100 justify-center py-6 items-center h-full'>
+        <div className='bg-yellow-100 justify-center py-6 items-center h-full'>
             <h1 className='text-black text-2xl text-center font-[Poppins-SemiBold] pb-8'>Want to use another input ?</h1>
             <div className='flex  justify-center space-x-20'>
                 <button className='bg-[black] w-[200px] rounded-md font-medium my-6  py-3 text-[aquamarine] ' onClick={() => handleButtonClick(!openModal)}>Open Camera</button>
