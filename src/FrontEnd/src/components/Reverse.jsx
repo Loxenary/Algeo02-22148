@@ -59,7 +59,7 @@ const Reverse = () => {
     }
     useEffect(() => {
         const handleBeforeRestart = async () => {
-            await resetData();
+            resetData();
         };
         window.addEventListener('beforeunload',handleBeforeRestart);
 
@@ -67,25 +67,6 @@ const Reverse = () => {
             window.removeEventListener('beforeunload',handleBeforeRestart);
                 };
     }, [])
-
-    useEffect(() =>{
-        let timeoutID;
-        const handleTimeout = () =>{
-            alert('Somethings feels fishy. the page will be refreshed');
-            window.location.reload();
-        }
-        if(Loading){
-            timeoutID = setTimeout(() => {
-                setLoading(false);
-                handleTimeout();
-            },8000);
-        }
-        return () =>{
-            clearTimeout(timeoutID);
-        };
-    },[Loading])
-
-    
 
     function clickme(e){
         document.getElementById("input_image").click();

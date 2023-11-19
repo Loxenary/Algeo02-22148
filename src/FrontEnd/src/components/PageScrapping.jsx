@@ -2,14 +2,29 @@ import React, { useState} from 'react';
 
 const WebBG = 'WebBG.jpg'; // Assuming you have the image in your public folder
 
+function isValidHttpUrl(string) {
+  let url;
+  
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;  
+  }
 
+  return url.protocol === "http:" || url.protocol === "https:";
+}
 function PageScrapping({onDataUpdate, setImages}) {
   const [displayed, setDisplayed] = useState("");
-      
+
+
   const handleImageScrapping = async ()=> {
     if(displayed === ""){
         alert("PLS INPUT URL IMAGE BEFORE PROCEED")
         return;
+    }
+    if(!isValidHttpUrl(displayed)){
+      alert("URL ERROR");
+      return;
     }
 
     try {
@@ -21,15 +36,17 @@ function PageScrapping({onDataUpdate, setImages}) {
         }
         const blob = await file.blob();
         const files = new File([blob], "Scrap.jpg", {type: blob.type});
-        if(files == null){
+        if(!files.size || !blob.size){
             alert("URL ERROR");
             return;
         }
         
         setImages(displayed)
+
         let formData = new FormData();
         formData.append('input_image',files);
         console.log("TEst: ",files);
+
         const endpoint = "http://localhost:8000/UploadImage/";
         const response = await fetch(endpoint, {
           method: "POST",
@@ -37,7 +54,6 @@ function PageScrapping({onDataUpdate, setImages}) {
         });
 
         if (response.ok) {
-          console.log("Besok Berhasil");
           if (onDataUpdate) {
             onDataUpdate();
           }

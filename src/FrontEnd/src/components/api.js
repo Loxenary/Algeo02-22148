@@ -5,12 +5,11 @@ const API = {
         event.preventDefault();
       }
       try {
-          let switchstate = new FormData();
-          if(Object.keys(data).length > 1){
-              setLoading(true);
-          }
+        let switchstate = new FormData();
+          
+          
           switchstate.append('state', isChecked.toString());
-        
+          setLoading(true);
           const endpoint = "http://localhost:8000/search/";
           const response = await fetch(endpoint, {
             method: 'POST',
@@ -19,7 +18,8 @@ const API = {
     
           if (response.ok) {
             console.log('Switch state updated successfully');
-            await API.getData(setData); 
+            
+            await API.getData(setData,setLoading); 
           } else {
             console.error('Failed to update switch state');
           }
@@ -31,7 +31,7 @@ const API = {
     
     },
   
-    getData: async (setData) => { // get all the similarities and filenames data to the server
+    getData: async (setData,setLoading) => { // get all the similarities and filenames data to the server
       try {
         const endpoint = "http://localhost:8000/showFile";
         const response = await fetch(endpoint);
@@ -41,7 +41,8 @@ const API = {
             setData(file);
         }
         else{
-          alert("PLEASE INPUT DATASET of images !! or INPUT IMAGE FIRST!!")
+          alert("PLEASE INPUT DATASET of images !! or INPUT IMAGE FIRST!!");
+          setLoading(false)
         }
         console.log("getData called successfully");
       } catch (error) {
